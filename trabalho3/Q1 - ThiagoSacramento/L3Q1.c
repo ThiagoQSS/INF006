@@ -36,6 +36,7 @@ int inserirEmArv(Raiz * arv, int valor) //vai retornar o
 
     No * aux = arv->inicio;
     int keep = 1;
+    
     while (keep)
     {
         if (valor > aux->valor) 
@@ -57,6 +58,8 @@ int inserirEmArv(Raiz * arv, int valor) //vai retornar o
             }
         }
     }
+
+
 }
 
 
