@@ -131,10 +131,14 @@ int main ()
     while (fgets(string, TAM, entrada)) {
         Raiz * arvore = initArv();
         isFirst = 1;
+
+        for (int i = 0; i < 1000; i++)
+            printf("%c", string[i]);
+        //
         chunk = strtok(string, separador);
 
         while(chunk != NULL) {
-          
+            
             if(isFirst) {
                 fprintf(saida, "%d", inserirEmArv(arvore, atoi(chunk)));
                 isFirst = 0;
@@ -142,7 +146,7 @@ int main ()
             else 
                 fprintf(saida, " %d", inserirEmArv(arvore, atoi(chunk)));
             //
-            printf("%s ", chunk);
+            //printf("%d ", atoi(chunk));
 
             chunk = strtok(NULL, separador);
         }
@@ -160,8 +164,7 @@ int main ()
             fprintf(saida, " pred NaN");
         //
 
-        printf("\n");
+        //printf("\n");
         fprintf(saida, "\n");
     }
-
 }
