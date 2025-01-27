@@ -14,7 +14,7 @@ typedef struct {
 } Raiz;
 
 
-Raiz * initLista() 
+Raiz * initArv() 
 {
     Raiz * arv = malloc(sizeof(Raiz));
     arv->inicio = NULL;
@@ -22,7 +22,7 @@ Raiz * initLista()
 }
 
 
-int inserirEmArv(Raiz * arv, int valor) //vai retornar o 
+int inserirEmArv(Raiz * arv, int valor) //vai retornar a altura
 {
     No * novo = malloc(sizeof(No));
     novo->valor = valor;
@@ -36,16 +36,18 @@ int inserirEmArv(Raiz * arv, int valor) //vai retornar o
 
     No * aux = arv->inicio;
     int keep = 1;
+    int altura = 0;
     
-    while (keep)
+    while (1)
     {
+        altura++;
         if (valor > aux->valor) 
         {
             if(aux->direita != NULL) 
                 aux = aux->direita;
             else {
                 aux->direita = novo;
-                keep = 0;
+                return altura;
             }
         } 
         else if(valor < aux->valor) 
@@ -54,18 +56,27 @@ int inserirEmArv(Raiz * arv, int valor) //vai retornar o
                 aux = aux->esquerda;
             else {
                 aux->esquerda = novo;
-                keep = 0;
+                return altura;
             }
         }
     }
-
-
 }
 
 
 int main () 
 {
-
     system("cls||clear");
+
+    Raiz * arvore = initArv(); 
+
+    printf("%d\n", inserirEmArv(arvore, 5));
+    printf("%d\n", inserirEmArv(arvore, 8));
+    printf("%d\n", inserirEmArv(arvore, -1));
+    printf("%d\n", inserirEmArv(arvore, 4));
+    printf("%d\n", inserirEmArv(arvore, 6));
+    printf("%d\n", inserirEmArv(arvore, 9));
+    printf("%d\n", inserirEmArv(arvore, 11));
+    printf("%d\n", inserirEmArv(arvore, 15));
+
 
 }
