@@ -4,11 +4,15 @@
 #include <string.h>
 #define TAM 10000
 
+
 typedef struct no {
     int valor;
+    int altura;
     struct no * esquerda;
     struct no * direita;
+    struct no * parent;
 } No;
+
 
 typedef struct {
     No * inicio;
@@ -23,16 +27,17 @@ Raiz * initArv()
 }
 
 
-int inserirEmArv(Raiz * arv, int valor) //vai retornar a altura
+int inserirEmArv(Raiz * arv, int valor) //vai retornar se ocorreu a inserção
 {
     No * novo = malloc(sizeof(No));
     novo->valor = valor;
     novo->esquerda = NULL;
     novo->direita = NULL;
+    novo->parent = NULL;
 
     if (arv->inicio == NULL) {
         arv->inicio = novo;
-        return 0;
+        return 1;
     }
 
     No * aux = arv->inicio;
@@ -48,7 +53,9 @@ int inserirEmArv(Raiz * arv, int valor) //vai retornar a altura
                 aux = aux->direita;
             else {
                 aux->direita = novo;
-                return altura;
+                novo->parent = aux;
+                novo->altura = altura;
+                return 1;
             }
         } 
         else if(valor < aux->valor)
@@ -57,12 +64,15 @@ int inserirEmArv(Raiz * arv, int valor) //vai retornar a altura
                 aux = aux->esquerda;
             else {
                 aux->esquerda = novo;
-                return altura;
+                novo->parent = aux;
+                novo->altura = altura;
+                return 1;
             }
         } else
-            break;
+            return 0;
     }
 }
+
 
 No * buscarElemento(Raiz * arv, int valor) 
 {
@@ -85,14 +95,58 @@ No * buscarSucessorimediato(No * elemento)
     if(elemento == NULL)
         return NULL;
     No * aux = elemento;
-    if(aux->direita == NULL) {
-        printf("Direita nula");
-        return NULL;
+    No * parent;
+    if(aux->direita != NULL) {
+        aux = aux->direita;
+        while (aux->esquerda)
+            aux = aux->esquerda;
+        return aux;
+    } 
+    else if (aux->parent != NULL){
+        parent = aux->parent;
+        while(parent->direita == aux) {
+            aux = parent;
+            parent = aux->parent;
+        }
+        return parent;
     }
-    aux = aux->direita;
-    while (aux->esquerda)
+    else
+        return NULL;
+}
+
+
+No * buscarMinimo(Raiz * arv) 
+{
+    No * aux = arv->inicio;
+    while(aux->esquerda)
         aux = aux->esquerda;
     return aux;
+}
+
+
+int somarSubArvore(No * galho) 
+{
+    if (galho == NULL)
+        return 0;
+    int valor = galho->valor;
+    if (galho->direita == NULL)
+        return valor + somarSubArvore(galho->esquerda);
+    if (galho->esquerda == NULL)
+        return valor + somarSubArvore(galho->direita);
+    if (galho->direita == NULL && galho->esquerda == NULL) 
+        return valor;
+    return valor + somarSubArvore(galho->esquerda) + somarSubArvore(galho->direita);
+}
+
+
+int calcularDiffEsqDir(No * galho) {
+    if (galho->direita == NULL && galho->esquerda == NULL) 
+        return 0;
+    if (galho->esquerda == NULL)
+        return 0 - somarSubArvore(galho->direita);
+    if (galho->direita == NULL)
+        return somarSubArvore(galho->esquerda);
+    return somarSubArvore(galho->direita) - somarSubArvore(galho->esquerda);
 }
 
 
@@ -102,14 +156,6 @@ int main()
     system("clear||cls");
 
     Raiz * arvore = initArv();
-    inserirEmArv(arvore, 5);
-    inserirEmArv(arvore, 7);
-    inserirEmArv(arvore, 3);
-    inserirEmArv(arvore, 9);
-    inserirEmArv(arvore, 12);
-    inserirEmArv(arvore, 4);
 
-
-    printf("%d\n", buscarSucessorimediato(buscarElemento(arvore, 4))->valor);
-
+    
 }
