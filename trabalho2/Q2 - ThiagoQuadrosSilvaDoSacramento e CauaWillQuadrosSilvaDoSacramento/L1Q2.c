@@ -151,11 +151,11 @@ int main ()
     while (fgets(string, TAM_STRING, entrada)) 
     {
         if (!isFirst)
-            fprintf(saida, '\n');
+            fprintf(saida, "\n");
         isFirst = 0;
 
-        string[strcspn(string, '\n')] = '\0';
-        string[strcspn(string, '\r')] = '\0';
+        string[strcspn(string, "\n")] = '\0';
+        string[strcspn(string, "\r")] = '\0';
 
         Base * pilha = createStack();
         Base * reserva = createStack();
