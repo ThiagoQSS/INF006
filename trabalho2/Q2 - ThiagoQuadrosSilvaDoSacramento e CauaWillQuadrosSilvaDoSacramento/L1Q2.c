@@ -153,6 +153,10 @@ int main ()
 
     while (fgets(string, TAM_STRING, entrada)) 
     {
+
+        string[strcspn(string, '\n')] = '\0';
+        string[strcspn(string, '\r')] = '\0';
+
         Base * pilha = createStack();
         Base * reserva = createStack();
 
