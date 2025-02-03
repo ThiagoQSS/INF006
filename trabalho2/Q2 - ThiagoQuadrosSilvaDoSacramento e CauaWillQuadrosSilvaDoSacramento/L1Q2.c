@@ -115,11 +115,7 @@ void inserirEmOrdem(Base * pilha, Base * reserva, char nome[], FILE * saida)
         //
         juntarPilha(pilha, reserva, saida);
     }
-
-    if(toBreakLine)
-        fprintf(saida, "\n");
 }
-
 
 
 
@@ -127,7 +123,6 @@ void imprimirPilha(Base * pilha) {
     for (int i = pilha->topo - 1; i >= 0; i--)
         puts(pilha->pilha[i]);        
 }
-
 
 
 
@@ -151,8 +146,13 @@ int main ()
     }
     //
 
+    int isFirst = 1;
+
     while (fgets(string, TAM_STRING, entrada)) 
     {
+        if (!isFirst)
+            fprintf(saida, '\n');
+        isFirst = 0;
 
         string[strcspn(string, '\n')] = '\0';
         string[strcspn(string, '\r')] = '\0';
