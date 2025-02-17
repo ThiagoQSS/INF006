@@ -4,6 +4,11 @@
 #include <string.h>
 #define TAM 10000
 
+/*
+
+Dupla: Thiago Quadros e Cauã Will
+
+*/
 
 typedef struct no {
     int valor;
@@ -174,6 +179,10 @@ int main()
     int inicioLinha = 1;
     
     while (fgets(string, TAM, entrada)) {
+
+        string[strcspn(string, "\n")] = '\0';
+        string[strcspn(string, "\r")] = '\0';
+
         inicioLinha = 1;
         Raiz * arvore = initArv();
         if(!isFirst) 
